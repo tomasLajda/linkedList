@@ -11,16 +11,24 @@ struct Node* head = NULL;
 void createNode(int data) {
     struct Node* newNode = malloc(sizeof(struct Node));
     newNode->number = data;
-    newNode->next = head;
-    head = newNode;
+    if(head == NULL){
+        head = newNode;
+        newNode->next = newNode;
+    }
+    else {
+        newNode->next = head->next;
+        head->next = newNode;
+        head = newNode;
+    }
 }
 
 void printNodeList() {
     struct Node* currentNode = head;
-    while(currentNode != NULL) {
+    struct Node* lastNode = currentNode;
+    do{
         printf("%i\t", currentNode->number);
         currentNode = currentNode-> next;
-    }
+    } while (currentNode != lastNode);
 }
 
 
@@ -37,7 +45,6 @@ int main() {
         printf("Do you want to continue? y/n\n");
         scanf("%c", &continueAdding);
         fflush(stdin);
-
     } while(continueAdding == 'y');
 
     printNodeList();
